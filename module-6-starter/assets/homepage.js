@@ -18,7 +18,8 @@ var formSubmitHandler = function(event) {
 var getUserRepos = function(user) {
     var apiUrl ="https://api.github.com/users/" + user + "/repos";
 
-    fetch(apiUrl).then(function(response) {
+    fetch(apiUrl)
+    .then(function(response) {
         console.log(response);
         if (response.ok) {
         response.json().then(function(data) {
@@ -28,6 +29,9 @@ var getUserRepos = function(user) {
     } else {
         alert("Error: GitHub User Not Found");
     }
+    })
+    .catch(function(error) {
+        alert("Unable to connect to GitHub");
     });
 };
 
