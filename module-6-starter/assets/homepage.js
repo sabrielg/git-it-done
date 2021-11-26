@@ -9,6 +9,7 @@ var formSubmitHandler = function(event) {
     var username = nameInputEl.value.trim();
     if (username) {
         getUserRepos(username);
+        repoContainerEl.textContent = "";
         nameInputEl.value = "";
     } else {
         alert("Please enter a GitHub username");
@@ -23,11 +24,11 @@ var getUserRepos = function(user) {
         console.log(response);
         if (response.ok) {
         response.json().then(function(data) {
-            displayRepos(data, user);
             console.log(data);
+            displayRepos(data, user);
         });
     } else {
-        alert("Error: GitHub User Not Found");
+        alert("Error: " + response.statusText);
     }
     })
     .catch(function(error) {
@@ -41,14 +42,14 @@ var displayRepos = function(repos, searchTerm) {
         return;
     }
     console.log(repos);
-    console.log(searchTerm);
-    repoContainerEl.textContent = "";
+    console.log(searchTerm)
     repoSearchTerm.textContent = searchTerm;
 
         for (var i = 0; i < repos.length; i++) {
             var repoName = repos[i].owner.login + "/" + repos[i].name;
-            var repoEl = document.createElement("div");
+            var repoEl = document.createElement("a");
             repoEl.classList = "list-item flex-row justify-space-between align-center";
+            repoEl.setAttribute("href", "./single-repo.html?repo=" + repoName);
             var titleEl = document.createElement("span");
             titleEl.textContent = repoName;
             repoEl.appendChild(titleEl);
